@@ -1,0 +1,19 @@
+name: Test Project
+on: push #on push it will trigger
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get code
+        uses: actions/checkout@v3 #nameOFActionSelected@versionselected #We use the keyword uses to use a prbuilt action created by github
+        #with: #some actions require a certain keyword which is provided with with keyword
+        #  .. configyuration provided for with with
+        #as nodeJS is required for react but the runs-n already has it installed we can directly use them. FOr example we are seeing how to install nodeJS
+      - name: Install nodeJS
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+      - name: Install dependencies
+        run:  npm ci #npm install #cmmand to run #npm ci with install specific versions
+      - name: run tests
+        run: npm test
