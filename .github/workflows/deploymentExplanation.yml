@@ -1,0 +1,32 @@
+name: Deploy Project
+on: [push, workflow_dispatch] #For muliple triggers us [trigger1,  workflow_dispatch(trigger2)].  workflow_dispatch will help trigger manually
+jobs:
+  test: #workflow1
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get code
+        uses: actions/checkout@v3
+      - name: Install NodeJS
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - name: Install dependencies
+        run: npm ci
+      - name: Run tests
+        run: npm test
+  deploy: #Workflow2
+    needs: test #needs is the keyword to indicate. That a job should run after a old job is executed. Here test jon has to be executed before deploymrnt. For mutiple jobs to finish [test, job2]. If this keyword not provided it would run sequentially.
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get code
+        uses: actions/checkout@v3
+      - name: Install NodeJS
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - name: Install dependencies
+        run: npm ci
+      - name: Build project
+        run: npm run build
+      - name: Deploy
+        run: echo "Deploying ..."
